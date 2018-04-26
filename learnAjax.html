@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <title>Ajax第一次 调接口</title>
+  </head>
+  <body>
+    <div class="list">
+
+    </div>
+    <script type="text/javascript">
+      $(function(){
+        //get 地址栏传递参数 缺点：不够安全、传递的量比较小
+        //post 隐蔽性传递参数  优点：安全可靠、可大量传递参数几内容
+        //json  一种前后端交互时候所需要的数据格式  -》
+        /*
+          {
+            "list":[
+              {
+                "image": "https://img3.doubanio.com/img/files/file-1524196402-0.jpg",
+                "name": "豆瓣线装笔记本",
+                "desc": "简单凝练，轻薄便携，书写流畅，不洇不透",
+                "price": "18~88",
+                "tags": ["新品","热卖","精华"]
+              },
+              {
+                "image": "https://img3.doubanio.com/img/files/file-1524196402-0.jpg",
+                "name": "豆瓣线装笔记本",
+                "desc": "简单凝练，轻薄便携，书写流畅，不洇不透",
+                "price": "18~88",
+                "tags": ["新品","热卖","精华"]
+              },
+              {
+                "image": "https://img3.doubanio.com/img/files/file-1524196402-0.jpg",
+                "name": "豆瓣线装笔记本",
+                "desc": "简单凝练，轻薄便携，书写流畅，不洇不透",
+                "price": "18~88",
+                "tags": ["新品","热卖","精华"]
+              },
+            ]
+          }
+        */
+        $.ajax({
+          "url": "http://blog.com/api/blog/myBlog",
+          "type": "post",
+          "dataType": "json",
+          "data": {
+            "user_id": 36,
+          },
+          success: function(res){
+            var str = "";
+            if(res.error_code == 0){
+              console.log(res.data.my_blog_lists);
+              res.data.my_blog_lists.forEach(function(t){
+                str+='<p class="id">'+t.id+'</p>';
+                // var str = "<p>"+t.title+"</p>";
+                // $(".list").append(str)
+              });
+              $(".list").html(str)
+            }else {
+              alert(res.message);
+            }
+          },
+          error: function(){
+            alert("网络错误");
+          }
+        });
+       $.ajax({
+        "url": "http://blog.com/api/index/index",
+        "type": "get",
+        "dataType": "json",
+        "data": {
+          
+        },
+        success: function(res){
+          var str = "";
+          if(res.error_code == 0){
+            console.log(res.data.blog_lists);
+            res.data.blog_lists.forEach(function(t){
+              str+='<p class="id">'+t.title+'</p>';
+              // var str = "<p>"+t.title+"</p>";
+              // $(".list").append(str)
+            });
+            $(".list").html(str)
+          }else {
+            alert(res.message);
+          }
+        },
+        error: function(){
+          alert("网络错误");
+        }
+      });
+    
+      /*$.ajax({
+        "url" : "http://blog.com/index.php?c=blog&a=info",
+        "type" : "get",
+        "dataType" : "json",
+        "data" : {
+          "user_id" : 3677 ,
+        },
+        success : function(res){
+          if(res.error_code == 0){
+            console.log(res.data.my_blog_lists);
+          }else{
+            alert(res.message);
+          }
+        },
+        error : function(){
+          alert("网络错误")
+        }
+      })  */
+    });
+    </script>
+  </body>
+</html>
